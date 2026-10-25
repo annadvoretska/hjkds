@@ -13,3 +13,4 @@ class Solution {
         return (double) sum / (salary.length - 2);
     }
 }
+//If it works, don't touch it.
