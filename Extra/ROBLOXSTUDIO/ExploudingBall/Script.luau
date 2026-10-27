@@ -1,12 +1,17 @@
-local btn = script.Parent
+--я попробую згадати, як цей код працює.
+
+local btn = script.Parent --створюємо перемінні, вказуючи шлях до об'єкту. Наш скрипт знаходиться в Part, тому воно э "батьком", а скрипт - "дитиною"
+
+--ці перемінні зможуть нам допомогти, щоб зробити перезарядку кнопки та перевірку, чи доторкнувся наш персонаж до створенного скриптом кулі.
 local touched = false
 local debounce = false
 
-btn.ClickDetector.MouseClick:Connect(function()
-	if debounce == false then
+btn.ClickDetector.MouseClick:Connect(function() --У нашого Part є ClickDetector, який дає нам змогу натискати на part.
+	if debounce == false then --Якщо перезарядки у нас нема, то робимо debounce = true.
 		script.Pop:Play()
 		debounce = true
-		--creating a new part and its touch event
+
+		--Створюємо кулю та його перевірку дотику.
 		local newPart = Instance.new("Part")
 		newPart.Size = Vector3.new(7.98, 7.98, 7.98)
 		newPart.Position = Vector3.new(-0.88, 4.59, -14.92)
@@ -24,14 +29,14 @@ btn.ClickDetector.MouseClick:Connect(function()
 
 		newPart.Touched:Connect(function(hit)
 
-
+			--Створюємо перемінні humanoid гравця, щоб надалі працювати зі здоров'ям
 			local character = hit.Parent
 			local humanoid = character:FindFirstChild("Humanoid")
 
-			if not character or not humanoid then return end
+			if not character or not humanoid then return end --Якщо це не гравець - повертаємо.
 
 
-			--if humanoid then creating a explosion
+			--Але якщо це humanoid, тоді сстворюємо вибух
 			if humanoid and touched == false then
 				touched = true
 				script.FACTY:Play()
@@ -45,18 +50,18 @@ btn.ClickDetector.MouseClick:Connect(function()
 				newPart:Destroy()
 				
 			end
-
+			--а після цього торкатись кулі буде неможливо
 			task.wait(5)
 			touched = false
 			
 		end)
 
 
-		if not touched then
+		if not touched then --Але якщо його не чіпати, він знищиться.
 			task.wait(4)
 			newPart:Destroy()
 		end
 		task.wait(5)
-		debounce = false
+		debounce = false --вимикаємо перезарядку.
 	end
 end)
